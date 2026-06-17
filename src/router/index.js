@@ -17,6 +17,7 @@ const routes = [
   { path: '/accounting/accounts', name: 'Accounts', component: () => import('@/pages/Accounts.vue') },
   { path: '/accounting/journal-entries', name: 'JournalEntries', component: () => import('@/pages/JournalEntries.vue') },
   { path: '/payroll/employees', name: 'Employees', component: () => import('@/pages/Employees.vue') },
+  { path: '/settings', name: 'Settings', component: () => import('@/pages/Settings.vue') },
 ]
 
 const router = createRouter({

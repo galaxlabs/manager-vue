@@ -25,7 +25,7 @@
           <span v-if="!sidebarCollapsed">Dashboard</span>
         </router-link>
 
-        <div class="nav-section">
+        <div v-if="settings.isModuleEnabled('Sales')" class="nav-section">
           <div class="nav-section-title" v-if="!sidebarCollapsed">Sales</div>
           <router-link to="/sales/invoices" class="nav-item" active-class="active">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
@@ -50,7 +50,7 @@
           </router-link>
         </div>
 
-        <div class="nav-section">
+        <div v-if="settings.isModuleEnabled('Purchases')" class="nav-section">
           <div class="nav-section-title" v-if="!sidebarCollapsed">Purchases</div>
           <router-link to="/purchases/invoices" class="nav-item" active-class="active">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
@@ -75,7 +75,7 @@
           </router-link>
         </div>
 
-        <div class="nav-section">
+        <div v-if="settings.isModuleEnabled('Banking')" class="nav-section">
           <div class="nav-section-title" v-if="!sidebarCollapsed">Banking</div>
           <router-link to="/banking/receipts" class="nav-item" active-class="active">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
@@ -98,7 +98,7 @@
           </router-link>
         </div>
 
-        <div class="nav-section">
+        <div v-if="settings.isModuleEnabled('Inventory')" class="nav-section">
           <div class="nav-section-title" v-if="!sidebarCollapsed">Inventory</div>
           <router-link to="/inventory/items" class="nav-item" active-class="active">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
@@ -116,7 +116,7 @@
           </router-link>
         </div>
 
-        <div class="nav-section">
+        <div v-if="settings.isModuleEnabled('Accounting')" class="nav-section">
           <div class="nav-section-title" v-if="!sidebarCollapsed">Accounting</div>
           <router-link to="/accounting/accounts" class="nav-item" active-class="active">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
@@ -134,19 +134,28 @@
           </router-link>
         </div>
 
-        <router-link to="/fixed-assets" class="nav-item" active-class="active">
+        <router-link v-if="settings.isModuleEnabled('Fixed Assets')" to="/fixed-assets" class="nav-item" active-class="active">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="4" y="4" width="16" height="16" rx="2" /><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 15h3M1 9h3M1 15h3" />
           </svg>
           <span v-if="!sidebarCollapsed">Fixed Assets</span>
         </router-link>
 
-        <router-link to="/payroll/employees" class="nav-item" active-class="active">
+        <router-link v-if="settings.isModuleEnabled('Payroll')" to="/payroll/employees" class="nav-item" active-class="active">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" />
           </svg>
           <span v-if="!sidebarCollapsed">Employees</span>
         </router-link>
+
+        <div class="nav-section">
+          <router-link to="/settings" class="nav-item" active-class="active">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
+            </svg>
+            <span v-if="!sidebarCollapsed">Settings</span>
+          </router-link>
+        </div>
       </nav>
     </aside>
 
@@ -163,9 +172,11 @@
 import { ref, onMounted } from 'vue'
 import TopBar from '@/components/TopBar.vue'
 import { useAuthStore } from '@/stores/auth'
+import { useSettingsStore } from '@/stores/settings'
 
 const API_URL = import.meta.env.VITE_FRAPPE_API_URL || 'https://manager.galaxylabs.online'
 const auth = useAuthStore()
+const settings = useSettingsStore()
 const sidebarCollapsed = ref(false)
 
 onMounted(async () => {
@@ -173,5 +184,6 @@ onMounted(async () => {
   if (!loggedIn) {
     window.location.href = `${API_URL}/login?redirect-to=${encodeURIComponent(window.location.href)}`
   }
+  await settings.load()
 })
 </script>
