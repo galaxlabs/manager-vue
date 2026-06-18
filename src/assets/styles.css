@@ -517,3 +517,21 @@ select.input {
   .mobile-toggle { display: flex; }
   .dashboard-grid { grid-template-columns: 1fr; }
 }
+
+/* Dark mode */
+.main-content.dark-mode {
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --border: #334155;
+  --text: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-light: #64748b;
+}
+.main-content.dark-mode .top-bar { background: #1e293b; border-color: #334155; }
+.main-content.dark-mode .card { background: #1e293b; border-color: #334155; }
+.main-content.dark-mode .input { background: #0f172a; border-color: #334155; color: #e2e8f0; }
+.main-content.dark-mode .page-header h1 { color: #f1f5f9; }
+.main-content.dark-mode .breadcrumb-item { color: #94a3b8; }
+.main-content.dark-mode .dropdown-menu { background: #1e293b; border-color: #334155; }
+.main-content.dark-mode .dropdown-item { color: #e2e8f0; }
+.main-content.dark-mode .dropdown-item:hover { background: #0f172a; }

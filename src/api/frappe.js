@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useAuthStore } from '@/stores/auth'
 
-const API_URL = import.meta.env.VITE_FRAPPE_API_URL || 'https://manager.galaxylabs.online'
+const API_URL = import.meta.env.VITE_FRAPPE_API_URL || ''
 
 const api = axios.create({
   baseURL: `${API_URL}/api/method/`,
@@ -12,18 +12,23 @@ const api = axios.create({
   },
 })
 
-api.interceptors.request.use((config) => {
-  const auth = useAuthStore()
-  if (auth.token) {
-    config.headers['Authorization'] = `Bearer ${auth.token}`
-  }
-  return config
-})
+api.interceptors.request.use(
+  (config) => {
+    const auth = useAuthStore()
+    const key = auth.api_key || auth.stored?.api_key || import.meta.env.VITE_FRAPPE_API_KEY || ''
+    const secret = auth.api_secret || auth.stored?.api_secret || import.meta.env.VITE_FRAPPE_API_SECRET || ''
+    if (key && secret) {
+      config.headers.Authorization = `token ${key}:${secret}`
+    }
+    return config
+  },
+  (error) => Promise.reject(error)
+)
 
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 403) {
+    if (error.response?.status === 403 && error.response?.data?.exc_type === 'AuthenticationError') {
       const auth = useAuthStore()
       auth.clear()
     }
@@ -55,8 +60,35 @@ export function deleteDoc(doctype, name) {
   return frappeCall('frappe.client.delete', { doctype, name })
 }
 
-export function getList(doctype, filters = {}, fields = ['*'], limit = 100, orderBy = 'modified desc') {
-  return frappeCall('frappe.client.get_list', { doctype, filters, fields, limit_page_length: limit, order_by: orderBy })
+export function getList(doctype, filters = {}, fields = ['*'], limit = 100, offset = 0, orderBy = 'modified desc', search = '') {
+  return frappeCall('manager.api.get_list_filtered', { doctype, fields: JSON.stringify(fields), filters: JSON.stringify(filters), limit, limit_start: offset, search })
+}
+
+export function createBackup() {
+  return frappeCall('manager.api.create_backup')
+}
+
+export function listBackups() {
+  return frappeCall('manager.api.list_backups')
+}
+
+export async function downloadBackup(filename) {
+  const base = import.meta.env.VITE_FRAPPE_API_URL || ''
+  const url = `${base}/api/method/manager.api.download_backup?filename=${encodeURIComponent(filename)}`
+  const res = await api.get(url, { responseType: 'blob' })
+  const blob = new Blob([res.data])
+  const link = document.createElement('a')
+  link.href = URL.createObjectURL(blob)
+  link.download = filename
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  URL.revokeObjectURL(link.href)
+  return { status: 'ok' }
+}
+
+export function changePassword(oldPassword, newPassword) {
+  return frappeCall('manager.api.change_password', { old_password: oldPassword, new_password: newPassword })
 }
 
 export default api
