@@ -119,8 +119,9 @@ async function loadData() {
   }
   try {
     const res = await getList(props.doctype, {}, fieldNames, pageSize.value, (page.value - 1) * pageSize.value, 'modified desc', search.value)
-    rows.value = Array.isArray(res) ? res : (res.data || [])
-    total.value = res.total || rows.value.length
+    const result = Array.isArray(res) ? res : (res.message?.data || res.message || [])
+    rows.value = result
+    total.value = res.message?.total || result.length
   } catch {
     rows.value = []; total.value = 0
   } finally { loading.value = false }
