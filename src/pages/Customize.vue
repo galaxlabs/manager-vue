@@ -95,6 +95,7 @@ const tabGroups = reactive([
       { id: 'chart', label: 'Chart of Accounts', visible: true },
       { id: 'journal', label: 'Journal Entries', visible: true },
       { id: 'folders', label: 'Folders', visible: true },
+      { id: 'payment_terms', label: 'Payment Terms', visible: true },
       { id: 'recurring', label: 'Recurring Transactions', visible: true },
       { id: 'budgets', label: 'Budgets', visible: true },
     ]

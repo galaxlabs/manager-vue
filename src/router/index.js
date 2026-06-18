@@ -137,6 +137,7 @@ const routes = [
   { path: '/accounting/folders', name: 'Folders', component: () => import('@/pages/GenericList.vue'), props: { doctype: 'Folder', title: 'Folders' } },
   formRoute('/accounting/folders/new', 'Folder', 'Folder'),
   formRoute('/accounting/folders/:id', 'Folder', 'Folder'),
+  { path: '/accounting/payment-terms', name: 'PaymentTerms', component: () => import('@/pages/PaymentTerms.vue') },
 
   // Reports
   { path: '/reports/trial-balance', name: 'TrialBalance', component: () => import('@/pages/TrialBalance.vue') },

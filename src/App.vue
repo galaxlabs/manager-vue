@@ -195,7 +195,7 @@
           </router-link>
         </div>
 
-        <div class="nav-section" v-if="settings.isTabVisible('chart') || settings.isTabVisible('journal') || settings.isTabVisible('folders') || settings.isTabVisible('currencies')">
+        <div class="nav-section" v-if="settings.isTabVisible('chart') || settings.isTabVisible('journal') || settings.isTabVisible('folders') || settings.isTabVisible('currencies') || settings.isTabVisible('payment_terms')">
           <div class="nav-section-title" v-if="!sidebarCollapsed">Accounting</div>
           <router-link to="/accounting/chart" v-if="settings.isTabVisible('chart')" class="nav-item" active-class="active">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" /><line x1="8" y1="21" x2="16" y2="21" /></svg>
@@ -208,6 +208,10 @@
           <router-link to="/accounting/folders" v-if="settings.isTabVisible('folders')" class="nav-item" active-class="active">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" /></svg>
             <span v-if="!sidebarCollapsed">Folders</span>
+          </router-link>
+          <router-link to="/accounting/payment-terms" class="nav-item" active-class="active">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><text x="7" y="20" font-size="8" fill="currentColor">$</text></svg>
+            <span v-if="!sidebarCollapsed">Payment Terms</span>
           </router-link>
           <router-link to="/accounting/recurring" v-if="settings.isTabVisible('recurring')" class="nav-item" active-class="active">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" /></svg>
