@@ -147,7 +147,7 @@ const routes = [
   { path: '/reports/cash-flow', name: 'CashFlow', component: () => import('@/pages/CashFlow.vue') },
 
   // Recurring & Budget
-  { path: '/accounting/recurring', name: 'RecurringTransactions', component: () => import('@/pages/GenericList.vue'), props: { doctype: 'Recurring Transaction', title: 'Recurring Transactions' } },
+  { path: '/accounting/recurring', name: 'RecurringTransactions', component: () => import('@/pages/RecurringTransactions.vue') },
   formRoute('/accounting/recurring/new', 'Recurring Transaction', 'Recurring Transaction'),
   formRoute('/accounting/recurring/:id', 'Recurring Transaction', 'Recurring Transaction'),
   { path: '/accounting/budgets', name: 'Budgets', component: () => import('@/pages/Budgets.vue') },
