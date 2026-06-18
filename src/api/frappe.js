@@ -64,6 +64,43 @@ export function getList(doctype, filters = {}, fields = ['*'], limit = 100, offs
   return frappeCall('manager.api.get_list_filtered', { doctype, fields: JSON.stringify(fields), filters: JSON.stringify(filters), limit, limit_start: offset, search })
 }
 
+export function listPriceLists() {
+  return frappeCall('manager.api.list_price_lists')
+}
+
+export function savePriceList(data) {
+  return frappeCall('manager.api.save_price_list', { data: JSON.stringify(data) })
+}
+
+export function deletePriceList(name) {
+  return frappeCall('manager.api.delete_price_list', { name })
+}
+
+export function getPriceListItems(priceList) {
+  return frappeCall('manager.api.get_price_list_items', { price_list: priceList })
+}
+
+export function getItemPriceFromList(item, priceList, date) {
+  return frappeCall('manager.api.get_item_price_from_list', { item, price_list: priceList, date })
+}
+
+export function applyPriceListToInvoice(doctype, name, priceList) {
+  return frappeCall('manager.api.apply_price_list_to_invoice', { doctype, name, price_list: priceList })
+}
+
+export function calculateInvoiceDiscounts(doctype, name) {
+  return frappeCall('manager.api.calculate_invoice_discounts', { doctype, name })
+}
+
+export function getItems() {
+  return frappeCall('manager.api.get_list_filtered', {
+    doctype: 'Item',
+    fields: JSON.stringify(['name', 'item_name', 'item_type']),
+    filters: JSON.stringify({}),
+    limit: 9999,
+  })
+}
+
 export function createBackup() {
   return frappeCall('manager.api.create_backup')
 }

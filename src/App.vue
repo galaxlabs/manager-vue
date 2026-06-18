@@ -217,6 +217,10 @@
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" /></svg>
             <span v-if="!sidebarCollapsed">Budgets</span>
           </router-link>
+          <router-link to="/price-lists" class="nav-item" active-class="active">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            <span v-if="!sidebarCollapsed">Price Lists</span>
+          </router-link>
           <router-link to="/accounting/currencies" v-if="settings.isTabVisible('currencies')" class="nav-item" active-class="active">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" /><path d="M8 8c1.5-1 4-1.5 6 0s3 2.5 0 4-6 1-4.5 3.5 5.5 2 6.5 0" /><line x1="12" y1="2" x2="12" y2="6" /><line x1="12" y1="18" x2="12" y2="22" /></svg>
             <span v-if="!sidebarCollapsed">Currencies</span>

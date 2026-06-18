@@ -1,15 +1,18 @@
 <template>
   <Teleport to="body">
     <div v-if="visible" class="modal-overlay" @click.self="onCancel">
-      <div class="modal-card">
+      <div class="modal-card" :class="{ wide }">
         <div class="modal-header">
-          <h3>{{ title }}</h3>
+          <h3><slot name="title">{{ title }}</slot></h3>
           <button class="modal-close" @click="onCancel">&times;</button>
         </div>
         <div class="modal-body">
-          <slot />
+          <slot name="body"><slot /></slot>
         </div>
-        <div class="modal-footer">
+        <div v-if="$slots.footer" class="modal-footer">
+          <slot name="footer" />
+        </div>
+        <div v-else class="modal-footer">
           <button class="btn btn-secondary" @click="onCancel">{{ cancelText }}</button>
           <button v-if="!hideConfirm" class="btn" :class="confirmClass" @click="onConfirm" :disabled="loading">
             {{ loading ? loadingText : confirmText }}
@@ -30,6 +33,7 @@ const props = defineProps({
   loading: Boolean,
   hideConfirm: Boolean,
   confirmClass: { type: String, default: 'btn-primary' },
+  wide: Boolean,
 })
 const emit = defineEmits(['confirm', 'cancel'])
 function onConfirm() { emit('confirm') }
@@ -46,6 +50,7 @@ function onCancel() { emit('cancel') }
   background: #fff; border-radius: 12px;
   width: 100%; max-width: 480px; box-shadow: 0 8px 32px rgba(0,0,0,0.15);
 }
+.modal-card.wide { max-width: 720px; }
 .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border-bottom: 1px solid #e2e8f0; }
 .modal-header h3 { margin: 0; font-size: 1rem; }
 .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #94a3b8; padding: 0; line-height: 1; }

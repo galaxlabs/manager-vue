@@ -170,6 +170,7 @@ const routes = [
   { path: '/businesses', name: 'Businesses', component: () => import('@/pages/Businesses.vue') },
   { path: '/users', name: 'Users', component: () => import('@/pages/Users.vue') },
   { path: '/backup', name: 'BackupRestore', component: () => import('@/pages/BackupRestore.vue') },
+  { path: '/price-lists', name: 'PriceLists', component: () => import('@/pages/PriceLists.vue') },
 
   // Print Document
   { path: '/print/:doctype/:name', name: 'PrintDocument', component: () => import('@/pages/PrintDocument.vue'), props: true },
