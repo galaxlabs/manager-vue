@@ -71,6 +71,7 @@ const tabGroups = reactive([
       { id: 'transfers', label: 'Inventory Transfers', visible: true },
       { id: 'write_offs', label: 'Inventory Write-offs', visible: true },
       { id: 'production', label: 'Production Orders', visible: true },
+      { id: 'stock_balance', label: 'Stock Balance', visible: true },
     ]
   }, {
     name: 'payroll', label: 'Payroll',

@@ -101,6 +101,10 @@ const routes = [
   { path: '/inventory/production', name: 'ProductionOrders', component: () => import('@/pages/GenericList.vue'), props: { doctype: 'Production Order', title: 'Production Orders' } },
   formRoute('/inventory/production/new', 'Production Order', 'Production Order'),
   formRoute('/inventory/production/:id', 'Production Order', 'Production Order'),
+  { path: '/inventory/stock-balance', name: 'StockBalance', component: () => import('@/pages/StockBalance.vue') },
+
+  // Import
+  { path: '/import', name: 'Import', component: () => import('@/pages/Import.vue') },
 
   // Payroll
   { path: '/payroll/employees', name: 'Employees', component: () => import('@/pages/Employees.vue') },
