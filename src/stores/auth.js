@@ -28,16 +28,15 @@ export const useAuthStore = defineStore('auth', {
     permissions: {},
     userRole: null,
     checked: false,
-    stored: loadStored(),
   }),
   getters: {
-    isLoggedIn: (state) => !!(state.user || state.api_key || state.stored?.api_key || import.meta.env.VITE_FRAPPE_API_KEY),
-    displayUser: (state) => state.user || state.stored?.user || state.stored?.api_key || 'Guest',
-    sessionKey: (state) => state.api_key || state.stored?.api_key || import.meta.env.VITE_FRAPPE_API_KEY || '',
-    sessionSecret: (state) => state.api_secret || state.stored?.api_secret || import.meta.env.VITE_FRAPPE_API_SECRET || '',
+    isLoggedIn: (state) => !!(state.user || state.api_key || import.meta.env.VITE_FRAPPE_API_KEY),
+    displayUser: (state) => state.user || 'User',
+    sessionKey: (state) => state.api_key || import.meta.env.VITE_FRAPPE_API_KEY || '',
+    sessionSecret: (state) => state.api_secret || import.meta.env.VITE_FRAPPE_API_SECRET || '',
     token: (state) => {
-      const key = state.api_key || state.stored?.api_key || import.meta.env.VITE_FRAPPE_API_KEY || ''
-      const secret = state.api_secret || state.stored?.api_secret || import.meta.env.VITE_FRAPPE_API_SECRET || ''
+      const key = state.api_key || import.meta.env.VITE_FRAPPE_API_KEY || ''
+      const secret = state.api_secret || import.meta.env.VITE_FRAPPE_API_SECRET || ''
       return key && secret ? `${key}:${secret}` : null
     },
   },
@@ -82,27 +81,27 @@ export const useAuthStore = defineStore('auth', {
       if (data.api_secret) {
         this.api_key = data.api_key
         this.api_secret = data.api_secret
+        api.defaults.headers.common['Authorization'] = `token ${data.api_key}:${data.api_secret}`
         saveStored({ user: data.user, api_key: data.api_key, api_secret: data.api_secret })
       } else {
         this.api_key = data.api_key
-        this.api_secret = this.stored?.api_secret || import.meta.env.VITE_FRAPPE_API_SECRET || null
+        this.api_secret = import.meta.env.VITE_FRAPPE_API_SECRET || null
       }
       this.checked = true
       return data
     },
     async logout() {
       try { await api.post('logout') } catch {}
-      this.user = null
-      this.business = null
-      this.businesses = []
-      this.api_key = null
-      this.api_secret = null
-      this.checked = false
+      delete api.defaults.headers.common['Authorization']
+      this.$reset()
       clearStored()
     },
     async checkSession() {
       if (this.checked) return this.isLoggedIn
+      const stored = loadStored()
       if (import.meta.env.VITE_FRAPPE_API_KEY) {
+        this.api_key = import.meta.env.VITE_FRAPPE_API_KEY
+        this.api_secret = import.meta.env.VITE_FRAPPE_API_SECRET
         this.checked = true
         try {
           const res = await api.get('manager.api.get_user_info')
@@ -113,32 +112,29 @@ export const useAuthStore = defineStore('auth', {
         } catch {}
         return true
       }
-      const stored = this.stored
       if (stored?.api_key && stored?.api_secret) {
         this.api_key = stored.api_key
         this.api_secret = stored.api_secret
         this.checked = true
+        api.defaults.headers.common['Authorization'] = `token ${stored.api_key}:${stored.api_secret}`
         try {
           const res = await api.get('manager.api.get_user_info')
           this.user = res.data?.message?.user || stored.user || 'User'
           this.business = res.data?.message?.business || null
           this.loadBusinesses()
           this.loadPermissions()
+          return true
         } catch {
           this.clear()
           return false
         }
-        return true
       }
       this.checked = true
       return false
     },
     clear() {
-      this.user = null
-      this.business = null
-      this.api_key = null
-      this.api_secret = null
-      this.checked = false
+      delete api.defaults.headers.common['Authorization']
+      this.$reset()
       clearStored()
     },
   },

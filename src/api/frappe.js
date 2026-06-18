@@ -15,8 +15,12 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const auth = useAuthStore()
-    const key = auth.api_key || auth.stored?.api_key || import.meta.env.VITE_FRAPPE_API_KEY || ''
-    const secret = auth.api_secret || auth.stored?.api_secret || import.meta.env.VITE_FRAPPE_API_SECRET || ''
+    const defaultAuth = (api.defaults.headers.common['Authorization'] || '').replace('token ', '')
+    const sep = defaultAuth.indexOf(':')
+    const defaultKey = sep >= 0 ? defaultAuth.substring(0, sep) : defaultAuth
+    const defaultSecret = sep >= 0 ? defaultAuth.substring(sep + 1) : ''
+    const key = auth.api_key || defaultKey || import.meta.env.VITE_FRAPPE_API_KEY || ''
+    const secret = auth.api_secret || defaultSecret || import.meta.env.VITE_FRAPPE_API_SECRET || ''
     if (key && secret) {
       config.headers.Authorization = `token ${key}:${secret}`
     }
