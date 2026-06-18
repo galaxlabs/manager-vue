@@ -102,7 +102,6 @@ export const useAuthStore = defineStore('auth', {
     },
     async checkSession() {
       if (this.checked) return this.isLoggedIn
-      // Check env API keys first
       if (import.meta.env.VITE_FRAPPE_API_KEY) {
         this.checked = true
         try {
@@ -114,12 +113,21 @@ export const useAuthStore = defineStore('auth', {
         } catch {}
         return true
       }
-      // Check stored credentials
       const stored = this.stored
       if (stored?.api_key && stored?.api_secret) {
         this.api_key = stored.api_key
         this.api_secret = stored.api_secret
         this.checked = true
+        try {
+          const res = await api.get('manager.api.get_user_info')
+          this.user = res.data?.message?.user || stored.user || 'User'
+          this.business = res.data?.message?.business || null
+          this.loadBusinesses()
+          this.loadPermissions()
+        } catch {
+          this.clear()
+          return false
+        }
         return true
       }
       this.checked = true
