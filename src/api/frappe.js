@@ -61,7 +61,7 @@ export function deleteDoc(doctype, name) {
 }
 
 export function getList(doctype, filters = {}, fields = ['*'], limit = 100, offset = 0, orderBy = 'modified desc', search = '') {
-  return frappeCall('manager.api.get_list_filtered', { doctype, fields: JSON.stringify(fields), filters: JSON.stringify(filters), limit, limit_start: offset, search })
+  return frappeCall('manager.api.get_list_filtered', { doctype, fields: JSON.stringify(fields), filters: JSON.stringify(filters), limit, limit_start: offset, order_by: orderBy, search })
 }
 
 export function listPriceLists() {
@@ -113,7 +113,7 @@ export async function downloadBackup(filename) {
   const base = import.meta.env.VITE_FRAPPE_API_URL || ''
   const url = `${base}/api/method/manager.api.download_backup?filename=${encodeURIComponent(filename)}`
   const res = await api.get(url, { responseType: 'blob' })
-  const blob = new Blob([res.data])
+  const blob = res.data
   const link = document.createElement('a')
   link.href = URL.createObjectURL(blob)
   link.download = filename

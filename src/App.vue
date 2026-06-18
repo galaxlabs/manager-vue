@@ -77,7 +77,7 @@
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="10" y1="17" x2="14" y2="17" /></svg>
             <span v-if="!sidebarCollapsed">Credit Notes</span>
           </router-link>
-          <router-link to="/sales/late-payment-fees" v-if="settings.isTabVisible('late_fees')" class="nav-item" active-class="active">
+          <router-link to="/sales/late-fees" v-if="settings.isTabVisible('late_fees')" class="nav-item" active-class="active">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
             <span v-if="!sidebarCollapsed">Late Payment Fees</span>
           </router-link>
@@ -85,7 +85,7 @@
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
             <span v-if="!sidebarCollapsed">Billable Time</span>
           </router-link>
-          <router-link to="/sales/withholding-tax-receipts" v-if="settings.isTabVisible('withholding')" class="nav-item" active-class="active">
+          <router-link to="/sales/withholding" v-if="settings.isTabVisible('withholding')" class="nav-item" active-class="active">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
             <span v-if="!sidebarCollapsed">Withholding Tax Receipts</span>
           </router-link>
@@ -185,7 +185,7 @@
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
             <span v-if="!sidebarCollapsed">Amortization Entries</span>
           </router-link>
-          <router-link to="/capital/accounts" v-if="settings.isTabVisible('capital_accts')" class="nav-item" active-class="active">
+          <router-link to="/capital/capital-accounts" v-if="settings.isTabVisible('capital_accts')" class="nav-item" active-class="active">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" /></svg>
             <span v-if="!sidebarCollapsed">Capital Accounts</span>
           </router-link>

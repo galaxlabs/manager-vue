@@ -167,7 +167,7 @@
 <script setup>
 import { ref, computed, onMounted, inject } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { frappeCall, getList } from '@/api/frappe'
+import api, { frappeCall, getList } from '@/api/frappe'
 import Modal from '@/components/Modal.vue'
 import { useAuthStore } from '@/stores/auth'
 
@@ -225,7 +225,7 @@ async function loadMeta() {
         else if (f.options === 'Account') nameFields.push('account_name')
         else if (f.options === 'Division') nameFields.push('division_name')
         const opts = await getList(f.options, {}, nameFields, 999)
-        linkOptions.value[f.fieldname] = Array.isArray(opts) ? opts : (opts.data || [])
+        linkOptions.value[f.fieldname] = Array.isArray(opts) ? opts : (opts.message?.data || opts.message || [])
       } catch (e) {
         linkOptions.value[f.fieldname] = []
       }
@@ -246,7 +246,7 @@ async function loadMeta() {
                 else if (cf.options === 'Account') nameFields.push('account_name')
                 else if (cf.options === 'Division') nameFields.push('division_name')
               const opts = await getList(cf.options, {}, nameFields, 999)
-              const list = Array.isArray(opts) ? opts : (opts.data || [])
+              const list = Array.isArray(opts) ? opts : (opts.message?.data || opts.message || [])
               childLinkOptions.value[cf.options] = list
     }
   }
@@ -439,11 +439,14 @@ async function uploadImage(e, fieldname) {
   if (!file) return
   const formData = new FormData()
   formData.append('file', file)
+  formData.append('doctype', props.doctype)
+  formData.append('docname', route.params.id)
   try {
-    const res = await frappeCall('manager.api.upload_attachment', { doctype: props.doctype, name: route.params.id })
-    // Set the image field to the uploaded file URL
-    if (res.message?.file_url) {
-      form.value[fieldname] = res.message.file_url
+    const res = await api.post('manager.api.upload_attachment', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+    if (res.data?.message?.file_url) {
+      form.value[fieldname] = res.data.message.file_url
       save()
     } else {
       toast.success('Image uploaded')
@@ -476,8 +479,12 @@ async function uploadFile(e) {
   if (!file) return
   const formData = new FormData()
   formData.append('file', file)
+  formData.append('doctype', props.doctype)
+  formData.append('docname', route.params.id)
   try {
-    await frappeCall('manager.api.upload_attachment', { doctype: props.doctype, name: route.params.id })
+    await api.post('manager.api.upload_attachment', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
     toast.success('File uploaded')
     loadAttachments()
   } catch (e) {

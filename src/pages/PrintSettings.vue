@@ -36,7 +36,8 @@ function toast(type, msg) { toastMsg.value = msg; toastType.value = type; setTim
 
 onMounted(async () => {
   try {
-    const data = await frappeCall('manager.api.get_settings')
+    const res = await frappeCall('manager.api.get_settings')
+    const data = res?.message || {}
     if (data.enable_print !== undefined) printEnabled.value = !!data.enable_print
     if (data.print_settings) {
       try {

@@ -69,9 +69,9 @@ onMounted(async () => {
       frappeCall('manager.api.get_meta', { doctype: doctypeName }),
       frappeCall('manager.api.get_settings'),
     ])
-    doc.value = docRes
-    meta.value = metaRes
-    const data = setRes || {}
+    doc.value = docRes?.message
+    meta.value = metaRes?.message
+    const data = setRes?.message || {}
     if (data.enable_print && data.print_settings) {
       try {
         const s = typeof data.print_settings === 'string' ? JSON.parse(data.print_settings) : data.print_settings
