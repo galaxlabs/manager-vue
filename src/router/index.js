@@ -150,7 +150,7 @@ const routes = [
   { path: '/accounting/recurring', name: 'RecurringTransactions', component: () => import('@/pages/GenericList.vue'), props: { doctype: 'Recurring Transaction', title: 'Recurring Transactions' } },
   formRoute('/accounting/recurring/new', 'Recurring Transaction', 'Recurring Transaction'),
   formRoute('/accounting/recurring/:id', 'Recurring Transaction', 'Recurring Transaction'),
-  { path: '/accounting/budgets', name: 'Budgets', component: () => import('@/pages/GenericList.vue'), props: { doctype: 'Budget', title: 'Budgets' } },
+  { path: '/accounting/budgets', name: 'Budgets', component: () => import('@/pages/Budgets.vue') },
   formRoute('/accounting/budgets/new', 'Budget', 'Budget'),
   formRoute('/accounting/budgets/:id', 'Budget', 'Budget'),
   { path: '/accounting/currencies', name: 'Currencies', component: () => import('@/pages/GenericList.vue'), props: { doctype: 'Currency', title: 'Currencies' } },
