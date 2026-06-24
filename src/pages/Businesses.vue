@@ -75,6 +75,7 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { frappeCall } from '@/api/frappe'
+import { toast } from '@/utils/toast'
 
 const businesses = ref([])
 const showForm = ref(false)
@@ -97,7 +98,7 @@ function editBiz(b) {
 }
 
 async function saveBiz() {
-  if (!form.business_name) { alert('Business name is required'); return }
+  if (!form.business_name) { toast.warning('Business name is required'); return }
   saving.value = true
   try {
     if (editing.value) {
@@ -110,7 +111,7 @@ async function saveBiz() {
     Object.assign(form, { business_name: '', currency: 'USD', tax_id: '', phone: '', email: '', address: '', is_active: 1 })
     await load()
   } catch (e) {
-    alert('Failed: ' + (e.response?.data?.message || e.message))
+    toast.error('Failed: ' + (e.response?.data?.message || e.message))
   } finally {
     saving.value = false
   }

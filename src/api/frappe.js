@@ -41,7 +41,22 @@ api.interceptors.response.use(
 )
 
 export function frappeCall(method, params = {}) {
-  return api.post(method, params).then((r) => r.data)
+  return api.post(method, params).then((r) => {
+    const data = r.data
+    if (data._server_messages) {
+      try {
+        const msgs = JSON.parse(data._server_messages)
+        const errors = msgs.filter(m => {
+          try { const p = JSON.parse(m); return p.indicator === 'red' || p.raise_exception } catch { return false }
+        })
+        if (errors.length) {
+          console.warn('[API]', errors[0].message || errors[0])
+        }
+      } catch {}
+      delete data._server_messages
+    }
+    return data
+  })
 }
 
 export function frappeGet(path, params = {}) {

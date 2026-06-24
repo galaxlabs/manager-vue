@@ -115,6 +115,9 @@
     <Modal :visible="showCancelModal" :title="'Cancel ' + title" confirmText="Cancel" confirmClass="btn-danger" @confirm="confirmCancel" @cancel="showCancelModal = false">
       <p>Cancel this {{ title }}? This will reverse all accounting entries.</p>
     </Modal>
+    <div v-if="outstandingBalance > 0" class="balance-info">
+      Outstanding balance: <strong>{{ formatCurrency(outstandingBalance) }}</strong>
+    </div>
     <div v-if="!isNew" class="audit-trail">
       <span class="audit-item">Created {{ formatDate(form.creation) }} by {{ form.owner }}</span>
       <span class="audit-sep">|</span>
@@ -165,7 +168,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, inject } from 'vue'
+import { ref, computed, onMounted, inject, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import api, { frappeCall, getList } from '@/api/frappe'
 import Modal from '@/components/Modal.vue'
@@ -197,6 +200,16 @@ const showDeleteModal = ref(false)
 const showSubmitModal = ref(false)
 const showCancelModal = ref(false)
 const errors = ref({})
+const outstandingBalance = ref(0)
+
+watch(() => form.value?.customer, async (cust) => {
+  outstandingBalance.value = 0
+  if (!cust || (props.doctype !== 'Sales Invoice' && props.doctype !== 'Purchase Invoice')) return
+  try {
+    const res = await frappeCall('manager.api.get_customer_outstanding', { customer: cust })
+    outstandingBalance.value = res.message?.outstanding || 0
+  } catch {}
+})
 const showAttachments = ref(false)
 const showActivity = ref(false)
 const showEmailForm = ref(false)
@@ -709,6 +722,7 @@ select.is { min-height: 34px; }
 .btn-danger-outline { background: #fff; color: #dc2626; border: 1px solid #dc2626; }
 .btn-danger-outline:hover { background: #fef2f2; }
 .audit-trail { padding: 0.6rem 1.25rem; background: #f8fafc; border-top: 1px solid #e2e8f0; font-size: 0.8rem; color: #94a3b8; display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+.balance-info { padding: 0.5rem 1.25rem; background: #fef9c3; border-bottom: 1px solid #e2e8f0; font-size: 0.85rem; color: #854d0e; display: flex; gap: 0.35rem; align-items: center; }
 .audit-sep { color: #cbd5e1; }
 .audit-link { color: #2563eb; cursor: pointer; text-decoration: none; }
 .audit-link:hover { text-decoration: underline; }

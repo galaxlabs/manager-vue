@@ -1,0 +1,26 @@
+/* Daftra Theme — shadcn nova variant: green/nature, rounded, soft */
+[data-theme="daftra"] {
+  --color-background: oklch(0.982 0.004 145.7);
+  --color-foreground: oklch(0.188 0.01 157.3);
+  --color-card: oklch(1 0 0);
+  --color-card-foreground: oklch(0.188 0.01 157.3);
+  --color-popover: oklch(1 0 0);
+  --color-popover-foreground: oklch(0.188 0.01 157.3);
+  --color-primary: oklch(0.432 0.11 163.4);
+  --color-primary-foreground: oklch(0.985 0.003 145.7);
+  --color-secondary: oklch(0.949 0.008 145.1);
+  --color-secondary-foreground: oklch(0.188 0.01 157.3);
+  --color-muted: oklch(0.953 0.007 146.5);
+  --color-muted-foreground: oklch(0.498 0.016 156.8);
+  --color-accent: oklch(0.871 0.129 129.5);
+  --color-accent-foreground: oklch(0.188 0.01 157.3);
+  --color-destructive: oklch(0.631 0.196 29.2);
+  --color-border: oklch(0.906 0.009 151.7);
+  --color-input: oklch(0.906 0.009 151.7);
+  --color-ring: oklch(0.432 0.11 163.4);
+  --radius: 0.875rem;
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --font-sans: "Noto Sans Arabic", "Geist Variable", sans-serif;
+}

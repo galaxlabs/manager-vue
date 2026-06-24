@@ -72,6 +72,7 @@
 import { ref, onMounted } from 'vue'
 import { frappeCall } from '@/api/frappe'
 import Modal from '@/components/Modal.vue'
+import { toast } from '@/utils/toast'
 
 const terms = ref([])
 const loading = ref(true)
@@ -113,7 +114,7 @@ async function saveForm() {
     formVisible.value = false
     await load()
   } catch (e) {
-    alert(e?.response?.data?.message || e?.message || 'Save failed')
+    toast.error(e?.response?.data?.message || e?.message || 'Save failed')
   }
   saving.value = false
 }
@@ -124,7 +125,7 @@ async function doDelete(pt) {
     await frappeCall('manager.api.delete_payment_term', { name: pt.name })
     await load()
   } catch (e) {
-    alert(e?.response?.data?.message || e?.message || 'Delete failed')
+    toast.error(e?.response?.data?.message || e?.message || 'Delete failed')
   }
 }
 </script>

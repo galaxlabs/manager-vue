@@ -1,0 +1,26 @@
+/* GT Dispatch Theme — industrial, warm, logistics-themed */
+[data-theme="gtdispatch"] {
+  --color-background: #efe4cf;
+  --color-foreground: #16130f;
+  --color-card: #fff7e7;
+  --color-card-foreground: #16130f;
+  --color-popover: #fff7e7;
+  --color-popover-foreground: #16130f;
+  --color-primary: #c94924;
+  --color-primary-foreground: #fff;
+  --color-secondary: #1c1f1e;
+  --color-secondary-foreground: #efe4cf;
+  --color-muted: #f5ead5;
+  --color-muted-foreground: #6b5e4f;
+  --color-accent: #f2bc2f;
+  --color-accent-foreground: #16130f;
+  --color-destructive: #c94924;
+  --color-border: rgba(22, 19, 15, 0.13);
+  --color-input: rgba(22, 19, 15, 0.13);
+  --color-ring: #c94924;
+  --radius: 20px;
+  --radius-sm: 12px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --font-sans: "Space Grotesk", "Trebuchet MS", sans-serif;
+}

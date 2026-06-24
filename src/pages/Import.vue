@@ -43,6 +43,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { frappeCall } from '@/api/frappe'
+import { toast } from '@/utils/toast'
 
 const doctype = ref('')
 const csvText = ref('')
@@ -56,7 +57,7 @@ const sampleHeaders = computed(() => {
 
 async function doImport() {
   const lines = csvText.value.trim().split('\n')
-  if (lines.length < 2) { alert('CSV must have a header row and at least one data row'); return }
+  if (lines.length < 2) { toast.warning('CSV must have a header row and at least one data row'); return }
   const headers = lines[0].split(',').map(s => s.trim())
   const data = []
   for (let i = 1; i < lines.length; i++) {

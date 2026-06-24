@@ -49,6 +49,7 @@
 import { ref, onMounted } from 'vue'
 import { getList, frappeCall } from '@/api/frappe'
 import Modal from '@/components/Modal.vue'
+import { toast } from '@/utils/toast'
 
 const list = ref([])
 const loading = ref(true)
@@ -77,10 +78,10 @@ async function runNow(r) {
   if (!r.enabled) return
   try {
     const res = await frappeCall('manager.api.run_recurring_transaction', { name: r.name })
-    alert('Created: ' + (res.message?.created || 'ok'))
+    toast.success('Created: ' + (res.message?.created || 'ok'))
     await load()
   } catch (e) {
-    alert(e?.response?.data?.message || e?.message || 'Failed')
+    toast.error(e?.response?.data?.message || e?.message || 'Failed')
   }
 }
 
@@ -89,10 +90,10 @@ async function runAllDue() {
   try {
     const res = await frappeCall('manager.api.process_due_recurring')
     const m = res.message || {}
-    alert(`Processed ${m.total || 0} due transactions`)
+    toast.success(`Processed ${m.total || 0} due transactions`)
     await load()
   } catch (e) {
-    alert(e?.response?.data?.message || e?.message || 'Failed')
+    toast.error(e?.response?.data?.message || e?.message || 'Failed')
   }
   processing.value = false
 }
@@ -133,3 +134,4 @@ async function confirmDelete() {
 .btn-sm { padding: 0.35rem 0.75rem; font-size: 0.8rem; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 </style>
+

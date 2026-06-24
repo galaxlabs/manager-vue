@@ -104,6 +104,7 @@
 import { ref, onMounted } from 'vue'
 import { listPriceLists, savePriceList, deletePriceList, getItems, getPriceListItems } from '@/api/frappe'
 import Modal from '@/components/Modal.vue'
+import { toast } from '@/utils/toast'
 
 const priceLists = ref([])
 const loading = ref(true)
@@ -156,7 +157,7 @@ async function saveForm() {
     formVisible.value = false
     await load()
   } catch (e) {
-    alert(e?.response?.data?.message || e?.message || 'Save failed')
+    toast.error(e?.response?.data?.message || e?.message || "Save failed")
   }
   saving.value = false
 }
@@ -167,7 +168,7 @@ async function doDelete(pl) {
     await deletePriceList(pl.name)
     await load()
   } catch (e) {
-    alert(e?.response?.data?.message || e?.message || 'Delete failed')
+    toast.error(e?.response?.data?.message || e?.message || "Delete failed")
   }
 }
 
@@ -206,7 +207,7 @@ async function saveItems() {
     })
     itemsVisible.value = false
   } catch (e) {
-    alert(e?.response?.data?.message || e?.message || 'Save failed')
+    toast.error(e?.response?.data?.message || e?.message || "Save failed")
   }
   savingItems.value = false
 }
@@ -247,3 +248,4 @@ async function saveItems() {
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .empty { color: #94a3b8; font-size: 0.9rem; padding: 1rem 0; }
 </style>
+

@@ -582,14 +582,14 @@ async function loadTaxCodes() {
 }
 
 async function saveTaxCode() {
-  if (!newTax.code || !newTax.name || !newTax.rate || !newTax.type) { alert('Fill all fields'); return }
+  if (!newTax.code || !newTax.name || !newTax.rate || !newTax.type) { toast.warning('Fill all fields'); return }
   try {
     await frappeCall('manager.api.create_doc', { doctype: 'Tax Code', tax_code: newTax.code, tax_name: newTax.name, rate: newTax.rate, tax_type: newTax.type, is_active: 1 })
     showAddTax.value = false
     newTax.code = ''; newTax.name = ''; newTax.rate = 0; newTax.type = ''
     await loadTaxCodes()
   } catch (e) {
-    alert('Failed to save tax code: ' + (e.response?.data?.message || e.message))
+    toast.error('Failed to save tax code: ' + (e.response?.data?.message || e.message))
   }
 }
 
